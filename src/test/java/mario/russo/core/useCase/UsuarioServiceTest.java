@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import mario.russo.application.Exception.ExceptionUsuario;
 import mario.russo.core.domain.Usuario;
 import mario.russo.infra.adapter.UsuarioRepositoryImpl;
 
@@ -33,7 +34,7 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    void testGetById() {
+    void testGetById() throws ExceptionUsuario {
         Usuario usuario = new Usuario("João", "email@email", "1234");
         when(repository.getById(any())).thenReturn(usuario);
 
