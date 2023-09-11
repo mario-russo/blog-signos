@@ -3,9 +3,9 @@ package mario.russo.infra.adapter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import mario.russo.application.Exception.ExceptionUsuario;
 import mario.russo.core.domain.Usuario;
 import mario.russo.core.ports.out.RepositoryModel;
 import mario.russo.infra.UsuarioPanache;
@@ -16,7 +16,6 @@ public class UsuarioRepositoryImpl implements RepositoryModel<Usuario> {
 
     @Inject
     private UsuarioPanache panache;
-
 
     @Override
     public Usuario save(Usuario usuario) {
@@ -45,13 +44,15 @@ public class UsuarioRepositoryImpl implements RepositoryModel<Usuario> {
     }
 
     @Override
-    public Usuario getById(Long id) {
+    public Usuario getById(Long id) throws ExceptionUsuario {
         UsuarioEntity usuarioSalvo = panache.findById(id);
+        if (usuarioSalvo == null)
+           return null;
         return usuarioSalvo.getUsuario();
     }
 
     public Usuario getByEmail(String email) {
-        UsuarioEntity usuarioSalvo = panache.find("email",email).firstResult();
+        UsuarioEntity usuarioSalvo = panache.find("email", email).firstResult();
         return usuarioSalvo.getUsuario();
     }
 

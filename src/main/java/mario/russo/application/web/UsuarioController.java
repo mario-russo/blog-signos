@@ -12,6 +12,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import mario.russo.application.Exception.ExceptionUsuario;
 import mario.russo.core.domain.Usuario;
 import mario.russo.core.useCase.UsuarioService;
 
@@ -31,7 +32,7 @@ public class UsuarioController {
 
     @GET
     @Path("/{id}")
-    public Response getById(@PathParam("id") Long id) {
+    public Response getById(@PathParam("id") Long id) throws ExceptionUsuario {
         Usuario usuarioSalvo = service.getById(id);
         return Response.ok(usuarioSalvo).build();
     }
