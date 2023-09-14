@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 public class ConteudoTest {
     @Test
     void testconteudo(){
-        var signo ="aries";
+        var signo =SignoZodiaco.AQUÁRIO;
         var post = "novo conteudo";
         var referencia = "samana 1";
 
@@ -26,7 +26,7 @@ public class ConteudoTest {
         var conteudo = new Conteudo();
 
         assertThrows(IllegalArgumentException.class, ()->{
-            conteudo.setSigno("");
+            conteudo.setSigno(null);
         });
     }
 

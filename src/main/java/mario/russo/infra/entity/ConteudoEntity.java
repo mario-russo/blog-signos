@@ -4,18 +4,19 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import mario.russo.core.domain.Conteudo;
+import mario.russo.core.domain.SignoZodiaco;
 
 @Entity
 @Table(name = "conteudo")
 public class ConteudoEntity extends PanacheEntity {
     
-    private String signo;
+    private SignoZodiaco signo;
 
     private String conteudo;
 
     private String referencia;
 
-    public ConteudoEntity(String signo, String conteudo, String referencia) {
+    public ConteudoEntity(SignoZodiaco signo, String conteudo, String referencia) {
         this.signo = signo;
         this.conteudo = conteudo;
         this.referencia = referencia;
@@ -44,11 +45,11 @@ public class ConteudoEntity extends PanacheEntity {
         this.id = id;
     }
 
-    public String getSigno() {
+    public SignoZodiaco getSigno() {
         return signo;
     }
 
-    public void setSigno(String signo) {
+    public void setSigno(SignoZodiaco signo) {
         this.signo = signo;
     }
 

@@ -7,11 +7,11 @@ public class Conteudo {
     private Long id;
     @NotBlank(message = "Não pode ser vázio")
     @NotNull(message = "vazio")
-    private String signo;
+    private SignoZodiaco signo;
     private String conteudo;
     private String referencia;
 
-    public Conteudo(String signo, String conteudo, String referencia) {
+    public Conteudo(SignoZodiaco signo, String conteudo, String referencia) {
         setSigno(signo);
         setConteudo(conteudo);
         setReferencia(referencia);
@@ -21,12 +21,12 @@ public class Conteudo {
 
     }
 
-    public String getSigno() {
+    public SignoZodiaco getSigno() {
         return signo;
     }
 
-    public void setSigno(String signo) {
-        if (signo.isEmpty()) {
+    public void setSigno(SignoZodiaco signo) {
+        if (signo == null) {
             throw new IllegalArgumentException("Campo signo não pode ser vázio");
         }
         this.signo = signo;
