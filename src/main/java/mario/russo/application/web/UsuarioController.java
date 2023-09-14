@@ -16,7 +16,7 @@ import mario.russo.application.Exception.ExceptionUsuario;
 import mario.russo.core.domain.Usuario;
 import mario.russo.core.useCase.UsuarioService;
 
-@Path("/usuario")
+@Path("usuario")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UsuarioController {

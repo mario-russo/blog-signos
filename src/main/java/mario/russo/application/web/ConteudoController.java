@@ -6,7 +6,6 @@ import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -19,8 +18,9 @@ import mario.russo.core.domain.Conteudo;
 import mario.russo.core.useCase.ConteudoService;
 import mario.russo.infra.adapter.ConteudoRepositoryImpl;
 
-@Path("/conteudo")
+@Path("conteudo")
 public class ConteudoController {
+
     @Inject
     ConteudoService service;
     @Inject
@@ -53,7 +53,7 @@ public class ConteudoController {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Conteudo save(@RequestBody @Valid Conteudo conteudo) {
+    public Conteudo save(@RequestBody Conteudo conteudo) {
         return service.save(conteudo);
     }
 
