@@ -1,25 +1,37 @@
 package mario.russo.infra.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import mario.russo.core.domain.Conteudo;
 import mario.russo.core.domain.SignoZodiaco;
+import mario.russo.core.domain.Usuario;
 
 @Entity
 @Table(name = "conteudo")
-public class ConteudoEntity extends PanacheEntity {
-    
+public class ConteudoEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id ;
     private SignoZodiaco signo;
 
     private String conteudo;
 
     private String referencia;
+    
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private UsuarioEntity usuario;
 
-    public ConteudoEntity(SignoZodiaco signo, String conteudo, String referencia) {
+    public ConteudoEntity(SignoZodiaco signo, String conteudo, String referencia, UsuarioEntity usuario) {
         this.signo = signo;
         this.conteudo = conteudo;
         this.referencia = referencia;
+        this.usuario = usuario;
     }
 
     public ConteudoEntity() {
@@ -29,14 +41,15 @@ public class ConteudoEntity extends PanacheEntity {
         this.signo = conteudo.getSigno();
         this.conteudo = conteudo.getConteudo();
         this.referencia = conteudo.getReferencia();
+        this.usuario =  new UsuarioEntity(conteudo.getUsuario());
     }
 
     public Conteudo conteudo() {
-        Conteudo conteudo = new Conteudo(this.signo, this.conteudo, this.referencia);
+        Conteudo conteudo = new Conteudo(this.signo, this.conteudo, this.referencia,this.getUsuario().getUsuario());
         conteudo.setId(this.getId());
         return conteudo;
     }
-
+    
     public Long getId() {
         return id;
     }
@@ -89,6 +102,14 @@ public class ConteudoEntity extends PanacheEntity {
         if (id != other.id)
             return false;
         return true;
+    }
+
+    public UsuarioEntity getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
     }
 
 }

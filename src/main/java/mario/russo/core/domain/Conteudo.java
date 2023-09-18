@@ -10,11 +10,21 @@ public class Conteudo {
     private SignoZodiaco signo;
     private String conteudo;
     private String referencia;
+    private Usuario usuario;
 
-    public Conteudo(SignoZodiaco signo, String conteudo, String referencia) {
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Conteudo(SignoZodiaco signo, String conteudo, String referencia, Usuario usuario) {
         setSigno(signo);
         setConteudo(conteudo);
         setReferencia(referencia);
+        setUsuario(usuario);
     }
 
     public Conteudo() {

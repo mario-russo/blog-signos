@@ -38,7 +38,7 @@ public class UsuarioRepositoryImpl implements RepositoryModel<Usuario> {
         usuarioEntity.setEmail(usuario.getEmail());
         usuarioEntity.setNome(usuario.getNome());
 
-        usuarioEntity.persist();
+        panache.persist(usuarioEntity);;
 
         return usuarioEntity.getUsuario();
     }

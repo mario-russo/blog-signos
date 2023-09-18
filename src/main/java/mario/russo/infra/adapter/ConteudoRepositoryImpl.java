@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import jakarta.ejb.ObjectNotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.NotFoundException;
 import mario.russo.core.domain.Conteudo;
 import mario.russo.core.ports.out.ConteudoRepository;
 import mario.russo.infra.ConteudoPanache;
@@ -57,8 +56,6 @@ public class ConteudoRepositoryImpl implements ConteudoRepository {
         var conteudoEntity = new ConteudoEntity(conteudo);
         conteudoPanache.persist(conteudoEntity);
 
-        if (!conteudoEntity.isPersistent())
-            throw new NotFoundException("Conteudo não salvo");
 
         return conteudoEntity.conteudo();
     }
@@ -69,7 +66,8 @@ public class ConteudoRepositoryImpl implements ConteudoRepository {
         conteudoEntity.setReferencia(conteudo.getReferencia());
         conteudoEntity.setSigno(conteudo.getSigno());
         conteudoEntity.setConteudo(conteudo.getConteudo());
-        conteudoEntity.persist();
+    
+        conteudoPanache.persist(conteudoEntity);
     }
 
     @Override
