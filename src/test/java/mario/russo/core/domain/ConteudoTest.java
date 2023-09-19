@@ -8,47 +8,46 @@ import org.junit.jupiter.api.Test;
 
 public class ConteudoTest {
     @Test
-    void testconteudo(){
-        var signo =SignoZodiaco.AQUÁRIO;
+    void testconteudo() {
+        var signo = SignoZodiaco.AQUÁRIO;
         var post = "novo conteudo";
         var referencia = "samana 1";
 
+        var conteudo = new Conteudo(signo, post, referencia, new Usuario("mario", "mario@mario", "1234"));
 
-        var conteudo = new Conteudo(signo, post, referencia);
-
-        assertEquals(signo,conteudo.getSigno());
-        assertEquals(post,conteudo.getConteudo()); 
-        assertEquals(referencia,conteudo.getReferencia()); 
+        assertEquals(signo, conteudo.getSigno());
+        assertEquals(post, conteudo.getConteudo());
+        assertEquals(referencia, conteudo.getReferencia());
     }
 
     @Test
-    void testSignoVazio(){
+    void testSignoVazio() {
         var conteudo = new Conteudo();
 
-        assertThrows(IllegalArgumentException.class, ()->{
+        assertThrows(IllegalArgumentException.class, () -> {
             conteudo.setSigno(null);
         });
     }
 
     @DisplayName("Dado um Referência retorna um IllegalArgumentExeption")
     @Test
-    void testReferenciaVazio(){
+    void testReferenciaVazio() {
 
         var conteudo = new Conteudo();
 
-        assertThrows(IllegalArgumentException.class, ()->{
+        assertThrows(IllegalArgumentException.class, () -> {
             conteudo.setReferencia("");
-        } );
+        });
     }
 
     @DisplayName("Dado um Conteudo vázio retorna um IllegalArgumentExeption")
     @Test
-    void testConteudoVazio(){
-        
+    void testConteudoVazio() {
+
         var conteudo = new Conteudo();
 
-        assertThrows(IllegalArgumentException.class, ()->{
-            
+        assertThrows(IllegalArgumentException.class, () -> {
+
             conteudo.setConteudo("");
         });
     }

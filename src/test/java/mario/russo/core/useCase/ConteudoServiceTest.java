@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import mario.russo.core.domain.Conteudo;
 import mario.russo.core.domain.SignoZodiaco;
+import mario.russo.core.domain.Usuario;
 import mario.russo.core.ports.out.ConteudoRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,7 +41,8 @@ public class ConteudoServiceTest {
     @Test
     @DisplayName("Dado um Conteudo Salva no repositorio")
     void testSave() {
-        var conteudo = new Conteudo(SignoZodiaco.ARIES, "mario@mario", "1234");
+        var conteudo = new Conteudo(SignoZodiaco.ARIES, "mario@mario", "1234",
+                new Usuario("mario", "mario@mario", "1234"));
 
         conteudoService.save(conteudo);
 
@@ -55,8 +57,9 @@ public class ConteudoServiceTest {
     @Test
     void listaTodosConteudos() {
         List<Conteudo> conteudoList = List.of(
-                new Conteudo(SignoZodiaco.ARIES, "Conteudo", "1234"),
-                new Conteudo(SignoZodiaco.ARIES, "Outra Referência", "567a8"));
+                new Conteudo(SignoZodiaco.ARIES, "Conteudo", "1234", new Usuario("mario", "mario@mario", "1234")),
+                new Conteudo(SignoZodiaco.ARIES, "Outra Referência", "567a8",
+                        new Usuario("mario", "mario@mario", "1234")));
 
         when(repository.listAll()).thenReturn(conteudoList);
 
@@ -70,7 +73,8 @@ public class ConteudoServiceTest {
 
     @Test
     void retornaUmConteudoDadoUmId() {
-        Conteudo conteudoPeloId = new Conteudo(SignoZodiaco.ARIES, "Outra Referencia", "567a8");
+        Conteudo conteudoPeloId = new Conteudo(SignoZodiaco.ARIES, "Outra Referencia", "567a8",
+                new Usuario("mario", "mario@mario", "1234"));
 
         when(repository.getById(1L)).thenReturn(conteudoPeloId);
 
@@ -78,7 +82,7 @@ public class ConteudoServiceTest {
 
         verify(repository, times(1)).getById(1L);
 
-          assertEquals(Conteudo.class, result.getClass());
+        assertEquals(Conteudo.class, result.getClass());
         assertEquals(SignoZodiaco.ARIES, result.getSigno());
         assertEquals("Outra Referencia", result.getConteudo());
         assertEquals("567a8", result.getReferencia());
@@ -86,15 +90,13 @@ public class ConteudoServiceTest {
     }
 
     @Test
-    void dadoUmConteudoAtualiza(){
-        Conteudo conteudoPeloId = new Conteudo(SignoZodiaco.ARIES, "Outra Referencia", "567a8");
+    void dadoUmConteudoAtualiza() {
+        Conteudo conteudoPeloId = new Conteudo(SignoZodiaco.ARIES, "Outra Referencia", "567a8",
+                new Usuario("mario", "mario@mario", "1234"));
 
         repository.upDate(1l, conteudoPeloId);
 
-        verify(repository,times(1)).upDate(1L, conteudoPeloId);
+        verify(repository, times(1)).upDate(1L, conteudoPeloId);
     }
-
-
-  
 
 }

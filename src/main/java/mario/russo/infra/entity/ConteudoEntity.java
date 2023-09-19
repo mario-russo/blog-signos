@@ -1,5 +1,6 @@
 package mario.russo.infra.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,14 +17,14 @@ import mario.russo.core.domain.Usuario;
 public class ConteudoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id ;
+    private Long id;
     private SignoZodiaco signo;
 
     private String conteudo;
 
     private String referencia;
-    
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
     private UsuarioEntity usuario;
 
@@ -41,15 +42,15 @@ public class ConteudoEntity {
         this.signo = conteudo.getSigno();
         this.conteudo = conteudo.getConteudo();
         this.referencia = conteudo.getReferencia();
-        this.usuario =  new UsuarioEntity(conteudo.getUsuario());
+        this.usuario = new UsuarioEntity(conteudo.getUsuario());
     }
 
     public Conteudo conteudo() {
-        Conteudo conteudo = new Conteudo(this.signo, this.conteudo, this.referencia,this.getUsuario().getUsuario());
+        Conteudo conteudo = new Conteudo(this.signo, this.conteudo, this.referencia, this.getUsuario().getUsuario());
         conteudo.setId(this.getId());
         return conteudo;
     }
-    
+
     public Long getId() {
         return id;
     }
