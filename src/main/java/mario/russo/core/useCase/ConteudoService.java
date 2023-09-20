@@ -5,14 +5,13 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import mario.russo.core.domain.Conteudo;
 import mario.russo.core.ports.in.ConteudoSave;
-import mario.russo.core.ports.out.ConteudoRepository;
 import mario.russo.infra.adapter.ConteudoRepositoryImpl;
 
 @ApplicationScoped
 public class ConteudoService implements ConteudoSave {
 
     @Inject
-    private ConteudoRepository repository;
+    private ConteudoRepositoryImpl repository;
 
     public ConteudoService(ConteudoRepositoryImpl repository) {
         this.repository = repository;
