@@ -18,18 +18,25 @@ import mario.russo.core.domain.Usuario;
 public class UsuarioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id ;
+    private Long id;
     private String nome;
     private String email;
     private String senha;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<ConteudoEntity> conteudo = new ArrayList<>();
 
     public UsuarioEntity(String nome, String email, String senha) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
+    }
+
+    public UsuarioEntity(Long id, Usuario usuario) {
+        this.id = id;
+        this.nome = usuario.getNome();
+        this.email = usuario.getEmail();
+        this.senha = usuario.getSenha();
     }
 
     public UsuarioEntity() {
