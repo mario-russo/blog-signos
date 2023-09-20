@@ -10,12 +10,16 @@ import jakarta.inject.Inject;
 import mario.russo.core.domain.Conteudo;
 import mario.russo.core.ports.out.ConteudoRepository;
 import mario.russo.infra.ConteudoPanache;
+import mario.russo.infra.UsuarioPanache;
 import mario.russo.infra.entity.ConteudoEntity;
+import mario.russo.infra.entity.UsuarioEntity;
 
 @ApplicationScoped
 public class ConteudoRepositoryImpl implements ConteudoRepository {
     @Inject
     private ConteudoPanache conteudoPanache;
+
+    private UsuarioPanache usuarioRepository;
 
     @Override
     public void delete(Conteudo conteudo) {
@@ -26,8 +30,8 @@ public class ConteudoRepositoryImpl implements ConteudoRepository {
     @Override
     public Conteudo getById(Long id) {
         Optional<ConteudoEntity> conteudoResultado = conteudoPanache.findByIdOptional(id);
-        
-        if(!conteudoResultado.isPresent()){
+
+        if (!conteudoResultado.isPresent()) {
             try {
                 throw new ObjectNotFoundException("Conteudo Não Encontrado");
             } catch (ObjectNotFoundException e) {
@@ -53,11 +57,20 @@ public class ConteudoRepositoryImpl implements ConteudoRepository {
 
     @Override
     public Conteudo save(Conteudo conteudo) {
-        var conteudoEntity = new ConteudoEntity(conteudo);
-        conteudoPanache.persist(conteudoEntity);
+        UsuarioEntity usuario = usuarioRepository.findById(conteudo.getUsuario().getId());
 
+        ConteudoEntity novoConteudo = new ConteudoEntity();
 
-        return conteudoEntity.conteudo();
+        novoConteudo.setConteudo(conteudo.getConteudo());
+        novoConteudo.setReferencia(conteudo.getReferencia());
+        novoConteudo.setSigno(conteudo.getSigno());
+        novoConteudo.setUsuario(usuario);
+
+        usuario.setConteudo(novoConteudo);
+        conteudoPanache.persist(novoConteudo);
+
+        return novoConteudo.conteudo();
+
     }
 
     @Override
@@ -66,7 +79,7 @@ public class ConteudoRepositoryImpl implements ConteudoRepository {
         conteudoEntity.setReferencia(conteudo.getReferencia());
         conteudoEntity.setSigno(conteudo.getSigno());
         conteudoEntity.setConteudo(conteudo.getConteudo());
-    
+
         conteudoPanache.persist(conteudoEntity);
     }
 
