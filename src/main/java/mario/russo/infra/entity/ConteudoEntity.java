@@ -42,7 +42,7 @@ public class ConteudoEntity {
         this.signo = conteudo.getSigno();
         this.conteudo = conteudo.getConteudo();
         this.referencia = conteudo.getReferencia();
-        this.usuario = new UsuarioEntity(conteudo.getUsuario());
+        this.usuario = new UsuarioEntity(conteudo.getUsuario().getId(), conteudo.getUsuario());
     }
 
     public Conteudo conteudo() {
