@@ -5,6 +5,7 @@ import java.util.Optional;
 import jakarta.ejb.ObjectNotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import mario.russo.core.domain.SignoZodiaco;
 import mario.russo.core.domain.entity.ConteudoEntity;
 import mario.russo.core.ports.out.ConteudoRepository;
 import mario.russo.infra.ConteudoPanache;
@@ -46,33 +47,7 @@ public class ConteudoRepositoryImpl implements ConteudoRepository {
 
     @Override
     public ConteudoEntity save(ConteudoEntity conteudo) {
-        // UsuarioEntity usuario =
-        // usuarioRepository.findById(conteudo.getUsuario().getId());
-        // Usuario usuario = service.getById(conteudo.getUsuario().getId());
-
-        // UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
-        // ConteudoEntity novoConteudo = new ConteudoEntity();
-
-        // novoConteudo.setConteudo(conteudo.getConteudo());
-        // novoConteudo.setReferencia(conteudo.getReferencia());
-        // novoConteudo.setSigno(conteudo.getSigno());
-
-        // if (usuario != null) {
-
-        //     usuarioEntity.setConteudo(novoConteudo);
-        //     novoConteudo.setUsuario(usuarioEntity);
-
-        //     UsuarioPanache usuarioPanache = new UsuarioPanache();
-
-        //     usuarioPanache.persist(usuarioEntity);
-        //     conteudoPanache.persist(novoConteudo);
-
-        // }
-        // conteudo.setUsuario(usuario);
-        // conteudoPanache.persist(new ConteudoEntity(conteudo));
-        // return novoConteudo.conteudo();
-        // usuario.setConteudo(conteudo);
-
+       
         conteudoPanache.persist(conteudo);
         return conteudo;
 
@@ -89,7 +64,7 @@ public class ConteudoRepositoryImpl implements ConteudoRepository {
     }
 
     @Override
-    public List<ConteudoEntity> findBysignos(String signos) {
+    public List<ConteudoEntity> findBysignos(SignoZodiaco signos) {
         var conteudoList = conteudoPanache.findBySigno(signos);
         return conteudoList;
     }

@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import mario.russo.core.domain.Conteudo;
 import mario.russo.core.domain.SignoZodiaco;
 
 @Entity
@@ -37,18 +36,6 @@ public class ConteudoEntity {
     public ConteudoEntity() {
     }
 
-    public ConteudoEntity(Conteudo conteudo) {
-        this.signo = conteudo.getSigno();
-        this.conteudo = conteudo.getConteudo();
-        this.referencia = conteudo.getReferencia();
-        this.usuario = new UsuarioEntity(conteudo.getUsuario().getId(), conteudo.getUsuario());
-    }
-
-    public Conteudo conteudo() {
-        Conteudo conteudo = new Conteudo(this.signo, this.conteudo, this.referencia, this.getUsuario().getUsuario());
-        conteudo.setId(this.getId());
-        return conteudo;
-    }
 
     public Long getId() {
         return id;
