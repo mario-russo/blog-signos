@@ -14,6 +14,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import mario.russo.application.Exception.ExceptionUsuario;
 import mario.russo.core.domain.entity.UsuarioEntity;
+import mario.russo.core.dto.UsuarioRequestDTO;
+import mario.russo.core.dto.UsuarioResponseDTO;
 import mario.russo.core.useCase.UsuarioService;
 
 @Path("usuario")
@@ -47,8 +49,11 @@ public class UsuarioController {
     @Transactional
     @PATCH
     @Path("/{id}")
-    public Response atualiza(@PathParam("id") Long id, UsuarioEntity usuario) {
-        UsuarioEntity usuarioAtualizado = service.upDate(usuario, id);
-        return Response.ok(usuarioAtualizado).build();
+    public Response atualiza(@PathParam("id") Long id, UsuarioRequestDTO usuario) {
+        UsuarioEntity entity = new UsuarioEntity(usuario.nome(), usuario.email(), usuario.senha(), usuario.rule());
+        UsuarioEntity usuarioAtualizado = service.upDate(entity, id);
+        
+        UsuarioResponseDTO responseDTO = new UsuarioResponseDTO(usuarioAtualizado);
+        return Response.ok(responseDTO).build();
     }
 }

@@ -2,6 +2,7 @@ package mario.russo.core.dto;
 
 import mario.russo.core.domain.SignoZodiaco;
 import mario.russo.core.domain.entity.ConteudoEntity;
+import mario.russo.core.domain.entity.UsuarioEntity;
 
 public record ConteudoResponseDTO(
         Long id,
@@ -11,8 +12,11 @@ public record ConteudoResponseDTO(
         UsuarioResponseDTO usuario) {
     public ConteudoResponseDTO(ConteudoEntity entity) {
         this(entity.getId(), entity.getConteudo(), entity.getReferencia(), entity.getSigno(),
-                new UsuarioResponseDTO(entity.usuario.getId(), entity.usuario.getNome(),
-                        entity.usuario.getEmail()));
+                usuarioFactory(entity.getUsuario()));
+    }
+
+    private static UsuarioResponseDTO usuarioFactory(UsuarioEntity entity) {
+        return new UsuarioResponseDTO(entity);
     }
 
 }

@@ -2,15 +2,16 @@ package mario.russo.core.domain.entity;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import mario.russo.core.domain.Usuario;
+import mario.russo.core.domain.Rules;
 
 @Entity
 @Table(name = "usuario")
@@ -18,25 +19,26 @@ public class UsuarioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String nome;
     private String email;
     private String senha;
+    private List<Rules> rules = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<ConteudoEntity> conteudo = new ArrayList<>();
 
-    public UsuarioEntity(String nome, String email, String senha) {
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
+    public UsuarioEntity(String nome, String email, String senha, List<Rules> rules) {
+        setNome(nome);
+        setEmail(email);
+        setSenha(senha);
+        setRules(rules);
     }
 
-    public UsuarioEntity(Long id, Usuario usuario) {
-        this.id = id;
-        this.nome = usuario.getNome();
-        this.email = usuario.getEmail();
-        this.senha = usuario.getSenha();
+    public UsuarioEntity(String nome, String email, String senha) {
+        setNome(nome);
+        setEmail(email);
+        setSenha(senha);
     }
 
     public UsuarioEntity() {
@@ -48,18 +50,6 @@ public class UsuarioEntity {
 
     public void setConteudo(ConteudoEntity conteudo) {
         this.conteudo.add(conteudo);
-    }
-
-    public UsuarioEntity(Usuario usuario) {
-        setEmail(usuario.getEmail());
-        setNome(usuario.getNome());
-        setSenha(usuario.getSenha());
-    }
-
-    public Usuario getUsuario() {
-        Usuario usuario = new Usuario(this.nome, this.email, this.senha);
-        usuario.setId(this.id);
-        return usuario;
     }
 
     public String getNome() {
@@ -84,6 +74,22 @@ public class UsuarioEntity {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public List<Rules> getRules() {
+        return rules;
+    }
+
+    public void setRules(Rules rules) {
+        this.rules.add(rules);
+    }
+
+    public void setRules(List<Rules> rules) {
+        HashSet<Rules> flag = new HashSet<>();
+        for (Rules rules2 : rules) {
+            flag.add(rules2);
+        }
+        this.rules = new ArrayList<>(flag);
     }
 
     @Override

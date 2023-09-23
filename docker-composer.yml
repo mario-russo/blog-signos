@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  signo-backend:
+    build:
+      context: .
+      dockerfile: src/main/docker/Dockerfile.jvm
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/mydatabase
+      DB_USERNAME: blog-signo
+      DB_PASSWORD: signos1234
+    depends_on:
+      - postgresql
+    networks:
+      - my_network
+
+  postgresql:
+    image: postgres:latest
+    hostname: postgresql
+    environment:
+      - POSTGRES_PASSWORD=rinha1234
+      - POSTGRES_USER=blog-signo
+      - POSTGRES_DB=signos
+      # - POSTGRES_INITDB_ARGS=--data-checksums=off  # Desligar data checksums para melhorar a inserção de dados
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/datanf # Mapeie o arquivo de configuração
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    networks:
+      - my_network
+
+volumes:
+  postgres_data:
+
+networks:
+  my_network:
+    driver: bridge

@@ -41,7 +41,7 @@ public class AuthController {
 
     @GET
     @Path("verify")
-    @RolesAllowed({ "User" })
+    @RolesAllowed({ "ADMIN", "USUARIO" })
     public Response verify() throws ObjectNotFoundException {
         return Response.ok("acesso permitido").build();
     }
@@ -51,11 +51,13 @@ public class AuthController {
     @Transactional
     public Response register(UsuarioRequestDTO usuario) throws ObjectNotFoundException {
 
-        UsuarioEntity usuarioEntity = new UsuarioEntity(usuario.nome(), usuario.email(), usuario.senha());
+        UsuarioEntity usuarioEntity = new UsuarioEntity(usuario.nome(), usuario.email(), usuario.senha(),
+                usuario.rule());
 
         UsuarioEntity usuarioSalvo = usuarioService.save(usuarioEntity);
 
-        UsuarioResponseDTO usuarioResposnse = new UsuarioResponseDTO(usuarioSalvo.getId(),usuarioSalvo.getNome(), usuarioSalvo.getEmail());
+        UsuarioResponseDTO usuarioResposnse = new UsuarioResponseDTO(usuarioSalvo.getId(), usuarioSalvo.getNome(),
+                usuarioSalvo.getEmail(),usuarioEntity.getRules());
 
         return Response.status(Status.CREATED).entity(usuarioResposnse).build();
     }
