@@ -4,7 +4,7 @@ import java.util.List;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
-import mario.russo.infra.entity.ConteudoEntity;
+import mario.russo.core.domain.entity.ConteudoEntity;
 
 @ApplicationScoped
 public class ConteudoPanache implements PanacheRepositoryBase<ConteudoEntity, Long> {

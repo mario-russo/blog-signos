@@ -6,41 +6,41 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 import mario.russo.application.Exception.ExceptionUsuario;
-import mario.russo.core.domain.Usuario;
+import mario.russo.core.domain.entity.UsuarioEntity;
 import mario.russo.core.ports.in.ServiceBase;
 import mario.russo.infra.adapter.UsuarioRepositoryImpl;
 
 @RequestScoped
-public class UsuarioService implements ServiceBase<Usuario> {
+public class UsuarioService implements ServiceBase<UsuarioEntity> {
 
     @Inject
     UsuarioRepositoryImpl repository;
 
     @Override
-    public Usuario save(Usuario usuario) {
-        Usuario usuarioSalvo = repository.save(usuario);
+    public UsuarioEntity save(UsuarioEntity usuario) {
+        UsuarioEntity usuarioSalvo = repository.save(usuario);
         return usuarioSalvo;
     }
 
     @Override
-    public List<Usuario> listAll() {
+    public List<UsuarioEntity> listAll() {
         return repository.listAll();
     }
 
     @Override
-    public Usuario upDate(Usuario usuario, Long id) {
+    public UsuarioEntity upDate(UsuarioEntity usuario, Long id) {
         return repository.upDate(usuario, id);
     }
 
     @Override
-    public Usuario getById(Long id) throws ExceptionUsuario {
-        Usuario usuario = repository.getById(id);
+    public UsuarioEntity getById(Long id) throws ExceptionUsuario {
+        UsuarioEntity usuario = repository.getById(id);
         if (usuario == null)
             throw new ExceptionUsuario(Response.Status.NOT_FOUND.getStatusCode(), "Erro Ao Buscar Usuario do id: "+id);
         return usuario;
     }
 
-    public Usuario getByEmail(String email) {
+    public UsuarioEntity getByEmail(String email) {
         return repository.getByEmail(email);
     }
 

@@ -1,5 +1,7 @@
 package mario.russo.application.web;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
@@ -14,11 +16,15 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import mario.russo.core.domain.Conteudo;
+import jakarta.ws.rs.core.Response;
+import mario.russo.core.domain.entity.ConteudoEntity;
+import mario.russo.core.dto.ConteudoRequestDTO;
 import mario.russo.core.useCase.ConteudoService;
 import mario.russo.infra.adapter.ConteudoRepositoryImpl;
 
 @Path("conteudo")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class ConteudoController {
 
     @Inject
@@ -27,40 +33,37 @@ public class ConteudoController {
     ConteudoRepositoryImpl repository;
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Conteudo> listAllConteudo() {
-        List<Conteudo> conteudo = service.listAll();
+    public List<ConteudoEntity> listAllConteudo() {
+        List<ConteudoEntity> conteudo = service.listAll();
         return conteudo;
     }
 
     @GET
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Conteudo getById(@PathParam("id") Long id) {
-        Conteudo conteudoSalvo = service.getById(id);
-        return conteudoSalvo;
+    public Response getById(@PathParam("id") Long id) {
+        ConteudoEntity conteudoSalvo = service.getById(id);
+        return Response.ok(conteudoSalvo).build();
     }
 
     @GET
     @Path("signo/{signo}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Conteudo> getBySignos(@PathParam("signo") String signo) {
+    public Response getBySignos(@PathParam("signo") String signo) {
         var conteudoSalvo = service.findBySignos(signo);
-        return conteudoSalvo;
+        return Response.ok(conteudoSalvo).build();
     }
 
     @POST
     @Transactional
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Conteudo save(@RequestBody Conteudo conteudo) {
-        return service.save(conteudo);
+    public Response save(@RequestBody ConteudoRequestDTO conteudo) throws URISyntaxException {
+        ConteudoEntity conteudoSalvo = service.save(conteudo);
+        return Response.created(new URI("/recurso/" + conteudoSalvo.getId())).build();
     }
 
     @PUT
     @Path("/{id}")
     @Transactional
-    public void upDate(@PathParam("id") Long id, Conteudo conteudo) {
+    public Response upDate(@PathParam("id") Long id, ConteudoEntity conteudo) {
         service.upDate(id, conteudo);
+        return Response.ok(conteudo).build();
     }
 }

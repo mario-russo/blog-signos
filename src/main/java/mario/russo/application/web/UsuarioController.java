@@ -13,7 +13,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import mario.russo.application.Exception.ExceptionUsuario;
-import mario.russo.core.domain.Usuario;
+import mario.russo.core.domain.entity.UsuarioEntity;
 import mario.russo.core.useCase.UsuarioService;
 
 @Path("usuario")
@@ -26,29 +26,29 @@ public class UsuarioController {
 
     @GET
     public Response listUsuario() {
-        List<Usuario> listaDeUsuario = service.listAll();
+        List<UsuarioEntity> listaDeUsuario = service.listAll();
         return Response.ok(listaDeUsuario).build();
     }
 
     @GET
     @Path("/{id}")
     public Response getById(@PathParam("id") Long id) throws ExceptionUsuario {
-        Usuario usuarioSalvo = service.getById(id);
+        UsuarioEntity usuarioSalvo = service.getById(id);
         return Response.ok(usuarioSalvo).build();
     }
 
     @GET
     @Path("/email/{email}")
     public Response getById(@PathParam("email") String email) {
-        Usuario usuarioSalvo = service.getByEmail(email);
+        UsuarioEntity usuarioSalvo = service.getByEmail(email);
         return Response.ok(usuarioSalvo).build();
     }
 
     @Transactional
     @PATCH
     @Path("/{id}")
-    public Response atualiza(@PathParam("id") Long id, Usuario usuario) {
-        Usuario usuarioAtualizado = service.upDate(usuario, id);
+    public Response atualiza(@PathParam("id") Long id, UsuarioEntity usuario) {
+        UsuarioEntity usuarioAtualizado = service.upDate(usuario, id);
         return Response.ok(usuarioAtualizado).build();
     }
 }

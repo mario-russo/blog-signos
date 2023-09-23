@@ -11,7 +11,7 @@ import io.smallrye.jwt.build.Jwt;
 import jakarta.ejb.ObjectNotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import mario.russo.core.domain.Usuario;
+import mario.russo.core.domain.entity.UsuarioEntity;
 import mario.russo.core.useCase.UsuarioService;
 
 @ApplicationScoped
@@ -20,7 +20,7 @@ public class CriaToken {
     UsuarioService usuarioService;
 
     public String getToken(LoginDto login) throws ObjectNotFoundException {
-        Usuario usuario = usuarioService.getByEmail(login.getEmail());
+        UsuarioEntity usuario = usuarioService.getByEmail(login.getEmail());
 
         if (usuario == null) {
             throw new ObjectNotFoundException("usuario Não encontrado");

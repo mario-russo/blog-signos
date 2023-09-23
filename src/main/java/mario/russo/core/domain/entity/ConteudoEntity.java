@@ -1,4 +1,4 @@
-package mario.russo.infra.entity;
+package mario.russo.core.domain.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -10,7 +10,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import mario.russo.core.domain.Conteudo;
 import mario.russo.core.domain.SignoZodiaco;
-import mario.russo.core.domain.Usuario;
 
 @Entity
 @Table(name = "conteudo")
@@ -26,7 +25,7 @@ public class ConteudoEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
-    private UsuarioEntity usuario;
+    public UsuarioEntity usuario;
 
     public ConteudoEntity(SignoZodiaco signo, String conteudo, String referencia, UsuarioEntity usuario) {
         this.signo = signo;
@@ -87,7 +86,7 @@ public class ConteudoEntity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = (int) (prime * result + id);
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
@@ -100,7 +99,10 @@ public class ConteudoEntity {
         if (getClass() != obj.getClass())
             return false;
         ConteudoEntity other = (ConteudoEntity) obj;
-        if (id != other.id)
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
             return false;
         return true;
     }

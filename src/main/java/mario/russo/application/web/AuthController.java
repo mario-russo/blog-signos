@@ -16,7 +16,9 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import mario.russo.auth.CriaToken;
 import mario.russo.auth.LoginDto;
-import mario.russo.core.domain.Usuario;
+import mario.russo.core.domain.entity.UsuarioEntity;
+import mario.russo.core.dto.UsuarioRequestDTO;
+import mario.russo.core.dto.UsuarioResponseDTO;
 import mario.russo.core.useCase.UsuarioService;
 
 @Path("/auth")
@@ -43,11 +45,19 @@ public class AuthController {
     public Response verify() throws ObjectNotFoundException {
         return Response.ok("acesso permitido").build();
     }
+
     @POST
     @Path("register")
     @Transactional
-    public Response register(Usuario usuario) throws ObjectNotFoundException {
-        return Response.status(Status.CREATED).entity( usuarioService.save(usuario)).build();
+    public Response register(UsuarioRequestDTO usuario) throws ObjectNotFoundException {
+
+        UsuarioEntity usuarioEntity = new UsuarioEntity(usuario.nome(), usuario.email(), usuario.senha());
+
+        UsuarioEntity usuarioSalvo = usuarioService.save(usuarioEntity);
+
+        UsuarioResponseDTO usuarioResposnse = new UsuarioResponseDTO(usuarioSalvo.getId(),usuarioSalvo.getNome(), usuarioSalvo.getEmail());
+
+        return Response.status(Status.CREATED).entity(usuarioResposnse).build();
     }
 
 }

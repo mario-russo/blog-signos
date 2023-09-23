@@ -3,43 +3,45 @@ package mario.russo.core.useCase;
 import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import mario.russo.core.domain.Conteudo;
-import mario.russo.core.ports.in.ConteudoSave;
+import mario.russo.core.domain.entity.ConteudoEntity;
+import mario.russo.core.domain.entity.UsuarioEntity;
+import mario.russo.core.dto.ConteudoRequestDTO;
 import mario.russo.infra.adapter.ConteudoRepositoryImpl;
 
 @ApplicationScoped
-public class ConteudoService implements ConteudoSave {
+public class ConteudoService {
 
     @Inject
     private ConteudoRepositoryImpl repository;
+    @Inject
+    private UsuarioService usuarioservice;
 
     public ConteudoService(ConteudoRepositoryImpl repository) {
         this.repository = repository;
     }
 
-    /**
-     * @return
-     */
-    @Override
-    public Conteudo save(Conteudo conteudo) {
-        Conteudo conteudoResult = repository.save(conteudo);
+    public ConteudoEntity save(ConteudoRequestDTO conteudo) {
+    UsuarioEntity usuario =  usuarioservice.getById(conteudo.idUsuario());
+    ConteudoEntity conteudoEntity= new ConteudoEntity(conteudo.signo(), conteudo.conteudo(), conteudo.referencia(), usuario);
+        
+        ConteudoEntity conteudoResult = repository.save(conteudoEntity);
         return conteudoResult;
     }
 
-    public List<Conteudo> listAll() {
+    public List<ConteudoEntity> listAll() {
         return repository.listAll();
     }
 
-    public Conteudo getById(long id) {
-        Conteudo conteudo = repository.getById(id);
+    public ConteudoEntity getById(long id) {
+        ConteudoEntity conteudo = repository.getById(id);
         return conteudo;
     }
 
-    public List<Conteudo> findBySignos(String signo) {
+    public List<ConteudoEntity> findBySignos(String signo) {
         return repository.findBysignos(signo);
     }
 
-    public void upDate(Long id, Conteudo conteudo) {
+    public void upDate(Long id, ConteudoEntity conteudo) {
         repository.upDate(id, conteudo);
 
     }

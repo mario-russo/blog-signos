@@ -2,13 +2,13 @@ package mario.russo.core.ports.out;
 
 import java.util.List;
 
-import mario.russo.core.domain.Conteudo;
+import mario.russo.core.domain.entity.ConteudoEntity;
 
 public interface ConteudoRepository {
-    public Conteudo save(Conteudo conteudo);
-    public List<Conteudo> listAll();
-    public Conteudo getById(Long id);
-    public void delete(Conteudo conteudo);
-    public void upDate(Long id, Conteudo conteudo);
-    public List<Conteudo> findBysignos(String signos);
+    public ConteudoEntity save(ConteudoEntity conteudo);
+    public List<ConteudoEntity> listAll();
+    public ConteudoEntity getById(Long id);
+    public void delete(ConteudoEntity conteudo);
+    public void upDate(Long id, ConteudoEntity conteudo);
+    public List<ConteudoEntity> findBysignos(String signos);
 }
