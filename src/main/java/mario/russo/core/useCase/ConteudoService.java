@@ -3,6 +3,8 @@ package mario.russo.core.useCase;
 import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import mario.russo.application.Exception.ExceptionUsuario;
+import mario.russo.core.domain.SignoZodiaco;
 import mario.russo.core.domain.entity.ConteudoEntity;
 import mario.russo.core.domain.entity.UsuarioEntity;
 import mario.russo.core.dto.ConteudoRequestDTO;
@@ -21,9 +23,10 @@ public class ConteudoService {
     }
 
     public ConteudoEntity save(ConteudoRequestDTO conteudo) {
-    UsuarioEntity usuario =  usuarioservice.getById(conteudo.idUsuario());
-    ConteudoEntity conteudoEntity= new ConteudoEntity(conteudo.signo(), conteudo.conteudo(), conteudo.referencia(), usuario);
-        
+        UsuarioEntity usuario = usuarioservice.getById(conteudo.idUsuario());
+        ConteudoEntity conteudoEntity = new ConteudoEntity(conteudo.signo(), conteudo.conteudo(), conteudo.referencia(),
+                usuario);
+
         ConteudoEntity conteudoResult = repository.save(conteudoEntity);
         return conteudoResult;
     }
@@ -37,8 +40,15 @@ public class ConteudoService {
         return conteudo;
     }
 
-    public List<ConteudoEntity> findBySignos(String signo) {
-        return repository.findBysignos(signo);
+    public List<ConteudoEntity> findBySignos(int signoId) {
+        for (SignoZodiaco signo : SignoZodiaco.values()) {
+            if (signo.getId() == signoId) {
+                return repository.findBysignos(signo);
+            }
+        }
+
+        throw new ExceptionUsuario(404,
+                "Erro Ao Buscar conteudo do id: " + signoId);
     }
 
     public void upDate(Long id, ConteudoEntity conteudo) {
