@@ -3,6 +3,7 @@ package mario.russo.application.web;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 
@@ -17,10 +18,12 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import mario.russo.core.domain.entity.ConteudoEntity;
 import mario.russo.core.dto.ConteudoRequestDTO;
+import mario.russo.core.dto.ConteudoResponseDTO;
 import mario.russo.core.useCase.ConteudoService;
-import mario.russo.infra.adapter.ConteudoRepositoryImpl;
+import mario.russo.infra.adapter.UsuarioRepositoryImpl;
 
 @Path("conteudo")
 @Produces(MediaType.APPLICATION_JSON)
@@ -29,34 +32,52 @@ public class ConteudoController {
 
     @Inject
     ConteudoService service;
+    
     @Inject
-    ConteudoRepositoryImpl repository;
+    UsuarioRepositoryImpl usuarioService;
 
     @GET
-    public List<ConteudoEntity> listAllConteudo() {
+    public Response listAllConteudo() {
         List<ConteudoEntity> conteudo = service.listAll();
-        return conteudo;
+
+        List<ConteudoResponseDTO> responseDTO = conteudo.stream()
+                .map(entity -> new ConteudoResponseDTO(entity))
+                .collect(Collectors.toList());
+
+        return Response.ok(responseDTO).build();
     }
 
     @GET
     @Path("/{id}")
     public Response getById(@PathParam("id") Long id) {
         ConteudoEntity conteudoSalvo = service.getById(id);
-        return Response.ok(conteudoSalvo).build();
+
+        ConteudoResponseDTO conteudoDTO = new ConteudoResponseDTO(conteudoSalvo);
+
+        return Response.ok(conteudoDTO).build();
     }
 
     @GET
     @Path("signo/{signo}")
-    public Response getBySignos(@PathParam("signo") String signo) {
+    public Response getBySignos(@PathParam("signo") int signo) {
+
         var conteudoSalvo = service.findBySignos(signo);
-        return Response.ok(conteudoSalvo).build();
+
+        List<ConteudoResponseDTO> responseDTO = conteudoSalvo.stream()
+                .map(entity -> new ConteudoResponseDTO(entity))
+                .collect(Collectors.toList());
+        return Response.ok(responseDTO).build();
     }
 
     @POST
     @Transactional
     public Response save(@RequestBody ConteudoRequestDTO conteudo) throws URISyntaxException {
         ConteudoEntity conteudoSalvo = service.save(conteudo);
-        return Response.created(new URI("/recurso/" + conteudoSalvo.getId())).build();
+
+        ConteudoResponseDTO coteudoDTO = new ConteudoResponseDTO(conteudoSalvo);
+
+        return Response.status(Status.CREATED).location(new URI("/conteudo/" + conteudoSalvo.getId()))
+                .entity(coteudoDTO).build();
     }
 
     @PUT
