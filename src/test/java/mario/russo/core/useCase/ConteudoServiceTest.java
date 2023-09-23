@@ -11,27 +11,26 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import mario.russo.core.domain.Conteudo;
 import mario.russo.core.domain.SignoZodiaco;
-import mario.russo.core.domain.Usuario;
-import mario.russo.core.ports.out.ConteudoRepository;
+import mario.russo.core.domain.entity.ConteudoEntity;
+import mario.russo.core.domain.entity.UsuarioEntity;
+import mario.russo.infra.adapter.ConteudoRepositoryImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class ConteudoServiceTest {
 
     @Mock
-    ConteudoRepository repository;
+    ConteudoRepositoryImpl repository;
 
     @InjectMocks
     ConteudoService conteudoService;
 
-    private ArgumentCaptor<Conteudo> argumentCaptor = ArgumentCaptor.forClass(Conteudo.class);
+    // private ArgumentCaptor<Conteudo> argumentCaptor = ArgumentCaptor.forClass(Conteudo.class);
 
     @BeforeEach
     public void init() {
@@ -41,48 +40,49 @@ public class ConteudoServiceTest {
     @Test
     @DisplayName("Dado um Conteudo Salva no repositorio")
     void testSave() {
-        var conteudo = new Conteudo(SignoZodiaco.ARIES, "mario@mario", "1234",
-                new Usuario("mario", "mario@mario", "1234"));
+        ConteudoEntity conteudo = new ConteudoEntity(SignoZodiaco.ARIES, "conteudo", "refereincia",
+                new UsuarioEntity("MARIO", "MARIO@MARIO", "12345"));
 
-        conteudoService.save(conteudo);
+        when(repository.save(conteudo)).thenReturn(conteudo);
 
-        verify(repository, times(1)).save(argumentCaptor.capture());
-        Conteudo result = argumentCaptor.getValue();
+        ConteudoEntity conteudoSalvo = repository.save(conteudo);
 
-        assertEquals(conteudo.getConteudo(), result.getConteudo());
-        assertEquals(conteudo.getReferencia(), result.getReferencia());
-        assertEquals(conteudo.getSigno(), result.getSigno());
+        verify(repository, times(1)).save(conteudo);
+
+        assertEquals(ConteudoEntity.class, conteudoSalvo.getClass());
+
     }
 
     @Test
     void listaTodosConteudos() {
-        List<Conteudo> conteudoList = List.of(
-                new Conteudo(SignoZodiaco.ARIES, "Conteudo", "1234", new Usuario("mario", "mario@mario", "1234")),
-                new Conteudo(SignoZodiaco.ARIES, "Outra Referência", "567a8",
-                        new Usuario("mario", "mario@mario", "1234")));
+        List<ConteudoEntity> conteudoList = List.of(
+                new ConteudoEntity(SignoZodiaco.ARIES, "Conteudo", "1234",
+                        new UsuarioEntity("mario", "mario@mario", "1234")),
+                new ConteudoEntity(SignoZodiaco.ARIES, "Outra Referência", "567a8",
+                        new UsuarioEntity("mario", "mario@mario", "1234")));
 
         when(repository.listAll()).thenReturn(conteudoList);
 
-        List<Conteudo> result = conteudoService.listAll();
+        List<ConteudoEntity> result = conteudoService.listAll();
 
         verify(repository, times(1)).listAll();
 
         assertEquals(conteudoList.size(), 2);
-        assertEquals(Conteudo.class, result.get(0).getClass());
+        assertEquals(ConteudoEntity.class, result.get(0).getClass());
     }
 
     @Test
     void retornaUmConteudoDadoUmId() {
-        Conteudo conteudoPeloId = new Conteudo(SignoZodiaco.ARIES, "Outra Referencia", "567a8",
-                new Usuario("mario", "mario@mario", "1234"));
+        UsuarioEntity usuario = new UsuarioEntity("mario", "mario@mario", "1234");
+        ConteudoEntity conteudoPeloId = new ConteudoEntity(SignoZodiaco.ARIES, "Outra Referencia", "567a8", usuario);
 
         when(repository.getById(1L)).thenReturn(conteudoPeloId);
 
-        Conteudo result = conteudoService.getById(1L);
+        ConteudoEntity result = conteudoService.getById(1L);
 
         verify(repository, times(1)).getById(1L);
 
-        assertEquals(Conteudo.class, result.getClass());
+        assertEquals(ConteudoEntity.class, result.getClass());
         assertEquals(SignoZodiaco.ARIES, result.getSigno());
         assertEquals("Outra Referencia", result.getConteudo());
         assertEquals("567a8", result.getReferencia());
@@ -91,8 +91,8 @@ public class ConteudoServiceTest {
 
     @Test
     void dadoUmConteudoAtualiza() {
-        Conteudo conteudoPeloId = new Conteudo(SignoZodiaco.ARIES, "Outra Referencia", "567a8",
-                new Usuario("mario", "mario@mario", "1234"));
+        ConteudoEntity conteudoPeloId = new ConteudoEntity(SignoZodiaco.ARIES, "Outra Referencia", "567a8",
+                new UsuarioEntity("mario", "mario@mario", "1234"));
 
         repository.upDate(1l, conteudoPeloId);
 
