@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  signo-backend:
+    build:
+      context: .
+      dockerfile: src/main/docker/Dockerfile.jvm
+    environment:
+      DB_URL: jdbc:postgresql://postgresql:5432/signos
+      DB_USERNAME: blog-signo
+      DB_PASSWORD: signos1234
+    depends_on:
+      - postgresql
+    ports:
+      - "8080:8080"
+    networks:
+      - my_network
+
+  postgresql:
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=rinha1234
+      - POSTGRES_USER=blog-signo
+      - POSTGRES_DB=signos
+      
+    ports:
+      - "5432:5432"
+    networks:
+      - my_network
+
+volumes:
+  postgres_data:
+
+networks:
+  my_network:
+    driver: bridge
