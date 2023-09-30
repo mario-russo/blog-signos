@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  signo-backend:
+  backend:
     build:
       context: .
       dockerfile: src/main/docker/Dockerfile.jvm
@@ -17,19 +17,28 @@ services:
       - my_network
 
   postgresql:
-    image: postgres:latest
+    image: postgres
+    restart: always
     environment:
-      - POSTGRES_PASSWORD=rinha1234
+      - POSTGRES_PASSWORD=signos1234
       - POSTGRES_USER=blog-signo
       - POSTGRES_DB=signos
-      
+
     ports:
       - "5432:5432"
     networks:
       - my_network
-
+  adminer:
+      image: adminer
+      restart: always
+      ports:
+        - 8081:8080
+      networks:
+      - my_network
 volumes:
   postgres_data:
+
+
 
 networks:
   my_network:
