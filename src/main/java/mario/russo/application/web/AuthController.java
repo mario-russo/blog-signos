@@ -17,6 +17,7 @@ import jakarta.ws.rs.core.Response.Status;
 import mario.russo.auth.CriaToken;
 import mario.russo.auth.LoginDto;
 import mario.russo.core.domain.entity.UsuarioEntity;
+import mario.russo.core.dto.AuthenticationTokenDTO;
 import mario.russo.core.dto.UsuarioRequestDTO;
 import mario.russo.core.dto.UsuarioResponseDTO;
 import mario.russo.core.useCase.UsuarioService;
@@ -35,15 +36,16 @@ public class AuthController {
 
     @POST
     @Path("login")
-    public String login(LoginDto dto) throws ObjectNotFoundException {
-        return token.getToken(dto);
+    public Response login(LoginDto dto) throws ObjectNotFoundException {
+        AuthenticationTokenDTO authenticationTokenDTO = new AuthenticationTokenDTO(token.getToken(dto));
+        return Response.ok().entity(authenticationTokenDTO).build();
     }
 
     @GET
     @Path("verify")
     @RolesAllowed({ "ADMIN", "USUARIO" })
     public Response verify() throws ObjectNotFoundException {
-        return Response.ok("acesso permitido").build();
+        return Response.ok().entity("acesso permitido").build();
     }
 
     @POST
@@ -57,7 +59,7 @@ public class AuthController {
         UsuarioEntity usuarioSalvo = usuarioService.save(usuarioEntity);
 
         UsuarioResponseDTO usuarioResposnse = new UsuarioResponseDTO(usuarioSalvo.getId(), usuarioSalvo.getNome(),
-                usuarioSalvo.getEmail(),usuarioEntity.getRules());
+                usuarioSalvo.getEmail(), usuarioEntity.getRules());
 
         return Response.status(Status.CREATED).entity(usuarioResposnse).build();
     }
