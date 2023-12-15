@@ -1,7 +1,6 @@
 package mario.russo.application.web;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
