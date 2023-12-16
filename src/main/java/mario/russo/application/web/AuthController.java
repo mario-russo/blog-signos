@@ -37,7 +37,7 @@ public class AuthController {
     @POST
     @Path("login")
     public Response login(LoginDto dto) throws ObjectNotFoundException {
-        AuthenticationTokenDTO authenticationTokenDTO = new AuthenticationTokenDTO(token.getToken(dto));
+        AuthenticationTokenDTO authenticationTokenDTO = token.getToken(dto);
         return Response.ok().entity(authenticationTokenDTO).build();
     }
 

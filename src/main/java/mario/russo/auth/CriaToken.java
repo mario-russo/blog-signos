@@ -13,6 +13,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import mario.russo.core.domain.Rules;
 import mario.russo.core.domain.entity.UsuarioEntity;
+import mario.russo.core.dto.AuthenticationTokenDTO;
 import mario.russo.core.useCase.UsuarioService;
 
 @ApplicationScoped
@@ -20,7 +21,7 @@ public class CriaToken {
     @Inject
     UsuarioService usuarioService;
 
-    public String getToken(LoginDto login) throws ObjectNotFoundException {
+    public AuthenticationTokenDTO getToken(LoginDto login) throws ObjectNotFoundException {
         UsuarioEntity usuario = usuarioService.getByEmail(login.getEmail());
 
         if (usuario == null) {
@@ -30,7 +31,7 @@ public class CriaToken {
         if (usuario.getSenha() == login.getSenha()) {
             throw new ObjectNotFoundException("usuario Não encontrado");
         }
-        
+
         Instant now = Instant.now();
         Instant expirationTime = now.plus(30, ChronoUnit.DAYS);
         String token = Jwt
@@ -39,7 +40,7 @@ public class CriaToken {
                 .expiresAt(expirationTime)
                 .claim(Claims.birthdate.name(), "2001-07-13")
                 .sign();
-        return token;
+        return new AuthenticationTokenDTO(token, usuario.getId(), usuario.getNome());
     }
 
     private HashSet<String> arrayToHashSet(List<Rules> array) {
