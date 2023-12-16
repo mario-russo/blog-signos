@@ -1,6 +1,7 @@
 package mario.russo.application.web;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -28,8 +29,13 @@ public class UsuarioController {
 
     @GET
     public Response listUsuario() {
-        List<UsuarioEntity> listaDeUsuario = service.listAll();
-        return Response.ok(listaDeUsuario).build();
+        List<UsuarioEntity> usuarios = service.listAll();
+        List<UsuarioResponseDTO> usuariosDTO = usuarios.stream().map(
+                (usuario) -> new UsuarioResponseDTO(usuario.getId(), usuario.getNome(), usuario.getEmail(),
+                        usuario.getRules()))
+                .collect(Collectors.toList());
+
+        return Response.ok(usuariosDTO).build();
     }
 
     @GET
@@ -52,7 +58,7 @@ public class UsuarioController {
     public Response atualiza(@PathParam("id") Long id, UsuarioRequestDTO usuario) {
         UsuarioEntity entity = new UsuarioEntity(usuario.nome(), usuario.email(), usuario.senha(), usuario.rule());
         UsuarioEntity usuarioAtualizado = service.upDate(entity, id);
-        
+
         UsuarioResponseDTO responseDTO = new UsuarioResponseDTO(usuarioAtualizado);
         return Response.ok(responseDTO).build();
     }
