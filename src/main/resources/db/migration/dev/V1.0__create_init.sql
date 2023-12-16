@@ -1,14 +1,14 @@
 CREATE TABLE conteudo (
     id SERIAL PRIMARY KEY,
-    signo VARCHAR,
-    conteudo TEXT,
-    referencia VARCHAR,
+    signo VARCHAR(30),
+    conteudo TYPE VARCHAR(1500);,
+    referencia VARCHAR(30),
     usuario_id INT,
     FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );
 CREATE TABLE usuario (
     id SERIAL PRIMARY KEY,
-    nome VARCHAR,
+    nome VARCHAR(50),
     email VARCHAR UNIQUE,
     senha VARCHAR,
     rules SMALLINT[],
