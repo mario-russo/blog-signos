@@ -16,9 +16,10 @@ public class ConteudoRepositoryImpl implements ConteudoRepository {
     private ConteudoPanache conteudoPanache;
 
     @Override
-    public void delete(ConteudoEntity conteudo) {
-        
-        conteudoPanache.delete("id", conteudo.getId());
+    public Long delete(ConteudoEntity conteudo) {
+
+        long delete = conteudoPanache.delete("id", conteudo.getId());
+        return delete;
     }
 
     @Override
@@ -32,7 +33,7 @@ public class ConteudoRepositoryImpl implements ConteudoRepository {
                 e.printStackTrace();
             }
         }
-        
+
         return conteudoResultado.get();
 
     }
@@ -47,7 +48,7 @@ public class ConteudoRepositoryImpl implements ConteudoRepository {
 
     @Override
     public ConteudoEntity save(ConteudoEntity conteudo) {
-       
+
         conteudoPanache.persist(conteudo);
         return conteudo;
 

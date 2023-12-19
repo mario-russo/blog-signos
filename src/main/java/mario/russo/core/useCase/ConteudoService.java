@@ -56,4 +56,10 @@ public class ConteudoService {
 
     }
 
+    public Long delete(ConteudoEntity conteudoEntity) {
+        ConteudoEntity conteudo = getById(conteudoEntity.getId());
+        return repository.delete(conteudo);
+
+    }
+
 }

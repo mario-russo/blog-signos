@@ -10,6 +10,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -32,7 +33,7 @@ public class ConteudoController {
 
     @Inject
     ConteudoService service;
-    
+
     @Inject
     UsuarioRepositoryImpl usuarioService;
 
@@ -86,5 +87,12 @@ public class ConteudoController {
     public Response upDate(@PathParam("id") Long id, ConteudoEntity conteudo) {
         service.upDate(id, conteudo);
         return Response.ok(conteudo).build();
+    }
+
+    @DELETE
+    @Transactional
+    public Response delete(@RequestBody ConteudoEntity conteudo) {
+        Long delete = service.delete(conteudo);
+        return Response.status(204).entity(delete.toString()).build();
     }
 }
