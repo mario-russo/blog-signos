@@ -32,7 +32,7 @@ public class UsuarioEntity {
         setNome(nome);
         setEmail(email);
         setSenha(senha);
-        setRules(rules);
+        this.rules = rules;
     }
 
     public UsuarioEntity(String nome, String email, String senha) {
@@ -80,10 +80,6 @@ public class UsuarioEntity {
         return rules;
     }
 
-    public void setRules(Rules rules) {
-        this.rules.add(rules);
-    }
-
     public void setRules(List<Rules> rules) {
         HashSet<Rules> flag = new HashSet<>();
         for (Rules rules2 : rules) {
@@ -123,10 +119,6 @@ public class UsuarioEntity {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setConteudo(List<ConteudoEntity> conteudo) {
-        this.conteudo = conteudo;
     }
 
 }

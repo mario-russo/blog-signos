@@ -36,12 +36,17 @@ public class UsuarioService implements ServiceBase<UsuarioEntity> {
     public UsuarioEntity getById(Long id) throws ExceptionUsuario {
         UsuarioEntity usuario = repository.getById(id);
         if (usuario == null)
-            throw new ExceptionUsuario(Response.Status.NOT_FOUND.getStatusCode(), "Erro Ao Buscar Usuario do id: "+id);
+            throw new ExceptionUsuario(Response.Status.NOT_FOUND.getStatusCode(),
+                    "Erro Ao Buscar Usuario do id: " + id);
         return usuario;
     }
 
     public UsuarioEntity getByEmail(String email) {
         return repository.getByEmail(email);
+    }
+
+    public Long deleteUsuario(UsuarioEntity usuarioEntity) {
+        return repository.delete(usuarioEntity);
     }
 
 }

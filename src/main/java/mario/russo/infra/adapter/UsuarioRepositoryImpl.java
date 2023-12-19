@@ -37,7 +37,6 @@ public class UsuarioRepositoryImpl implements RepositoryModel<UsuarioEntity> {
         usuarioEntity.setSenha(usuario.getSenha());
 
         panache.persist(usuarioEntity);
-        
 
         return usuarioEntity;
     }
@@ -53,6 +52,10 @@ public class UsuarioRepositoryImpl implements RepositoryModel<UsuarioEntity> {
     public UsuarioEntity getByEmail(String email) {
         UsuarioEntity usuarioSalvo = panache.find("email", email).firstResult();
         return usuarioSalvo;
+    }
+
+    public Long delete(UsuarioEntity usuarioEntity) {
+        return panache.delete("id", usuarioEntity.getId());
     }
 
 }
