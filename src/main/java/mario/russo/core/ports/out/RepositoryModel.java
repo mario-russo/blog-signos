@@ -9,7 +9,7 @@ public interface RepositoryModel<T> {
 
      List<T> listAll();
 
-     T getById(Long id) throws ExceptionUsuario;
+     T getById(int id) throws ExceptionUsuario;
 
-     T upDate(T usuario, Long id);
+     T upDate(T usuario, int id);
 }

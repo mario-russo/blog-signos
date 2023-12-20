@@ -35,7 +35,7 @@ public class ConteudoService {
         return repository.listAll();
     }
 
-    public ConteudoEntity getById(long id) {
+    public ConteudoEntity getById(int id) {
         ConteudoEntity conteudo = repository.getById(id);
         return conteudo;
     }
@@ -51,12 +51,13 @@ public class ConteudoService {
                 "Erro Ao Buscar conteudo do id: " + signoId);
     }
 
-    public void upDate(Long id, ConteudoEntity conteudo) {
-        repository.upDate(id, conteudo);
+    public ConteudoEntity upDate(int id, ConteudoEntity conteudo) {
+        ConteudoEntity entity = repository.upDate(id, conteudo);
+        return entity;
 
     }
 
-    public Long delete(ConteudoEntity conteudoEntity) {
+    public int delete(ConteudoEntity conteudoEntity) {
         ConteudoEntity conteudo = getById(conteudoEntity.getId());
         return repository.delete(conteudo);
 

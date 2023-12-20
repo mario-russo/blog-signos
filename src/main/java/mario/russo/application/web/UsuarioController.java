@@ -43,7 +43,7 @@ public class UsuarioController {
 
     @GET
     @Path("/{id}")
-    public Response getById(@PathParam("id") Long id) throws ExceptionUsuario {
+    public Response getById(@PathParam("id") int id) throws ExceptionUsuario {
         UsuarioEntity usuarioSalvo = service.getById(id);
         return Response.ok(usuarioSalvo).build();
     }
@@ -58,7 +58,7 @@ public class UsuarioController {
     @Transactional
     @PATCH
     @Path("/{id}")
-    public Response atualiza(@PathParam("id") Long id, UsuarioRequestDTO usuario) {
+    public Response atualiza(@PathParam("id") int id, UsuarioRequestDTO usuario) {
         UsuarioEntity entity = new UsuarioEntity(usuario.nome(), usuario.email(), usuario.senha(), usuario.rule());
         UsuarioEntity usuarioAtualizado = service.upDate(entity, id);
 

@@ -50,7 +50,7 @@ public class ConteudoController {
 
     @GET
     @Path("/{id}")
-    public Response getById(@PathParam("id") Long id) {
+    public Response getById(@PathParam("id") int id) {
         ConteudoEntity conteudoSalvo = service.getById(id);
 
         ConteudoResponseDTO conteudoDTO = new ConteudoResponseDTO(conteudoSalvo);
@@ -82,17 +82,21 @@ public class ConteudoController {
     }
 
     @PUT
-    @Path("/{id}")
     @Transactional
-    public Response upDate(@PathParam("id") Long id, ConteudoEntity conteudo) {
-        service.upDate(id, conteudo);
-        return Response.ok(conteudo).build();
+    public Response upDate(@RequestBody ConteudoRequestDTO conteudo) {
+        ConteudoEntity entity = new ConteudoEntity();
+        entity.setConteudo(conteudo.conteudo());
+        entity.setReferencia(conteudo.referencia());
+        entity.setSigno(conteudo.signo());
+
+        ConteudoEntity atualizado = service.upDate(conteudo.id(), entity);
+        return Response.ok(new ConteudoResponseDTO(atualizado)).build();
     }
 
     @DELETE
     @Transactional
     public Response delete(@RequestBody ConteudoEntity conteudo) {
-        Long delete = service.delete(conteudo);
-        return Response.status(204).entity(delete.toString()).build();
+        int delete = service.delete(conteudo);
+        return Response.status(204).entity(delete).build();
     }
 }

@@ -30,7 +30,8 @@ public class ConteudoServiceTest {
     @InjectMocks
     ConteudoService conteudoService;
 
-    // private ArgumentCaptor<Conteudo> argumentCaptor = ArgumentCaptor.forClass(Conteudo.class);
+    // private ArgumentCaptor<Conteudo> argumentCaptor =
+    // ArgumentCaptor.forClass(Conteudo.class);
 
     @BeforeEach
     public void init() {
@@ -76,11 +77,11 @@ public class ConteudoServiceTest {
         UsuarioEntity usuario = new UsuarioEntity("mario", "mario@mario", "1234");
         ConteudoEntity conteudoPeloId = new ConteudoEntity(SignoZodiaco.ARIES, "Outra Referencia", "567a8", usuario);
 
-        when(repository.getById(1L)).thenReturn(conteudoPeloId);
+        when(repository.getById(1)).thenReturn(conteudoPeloId);
 
-        ConteudoEntity result = conteudoService.getById(1L);
+        ConteudoEntity result = conteudoService.getById(1);
 
-        verify(repository, times(1)).getById(1L);
+        verify(repository, times(1)).getById(1);
 
         assertEquals(ConteudoEntity.class, result.getClass());
         assertEquals(SignoZodiaco.ARIES, result.getSigno());
@@ -94,9 +95,9 @@ public class ConteudoServiceTest {
         ConteudoEntity conteudoPeloId = new ConteudoEntity(SignoZodiaco.ARIES, "Outra Referencia", "567a8",
                 new UsuarioEntity("mario", "mario@mario", "1234"));
 
-        repository.upDate(1l, conteudoPeloId);
+        repository.upDate(1, conteudoPeloId);
 
-        verify(repository, times(1)).upDate(1L, conteudoPeloId);
+        verify(repository, times(1)).upDate(1, conteudoPeloId);
     }
 
 }

@@ -28,12 +28,12 @@ public class UsuarioService implements ServiceBase<UsuarioEntity> {
     }
 
     @Override
-    public UsuarioEntity upDate(UsuarioEntity usuario, Long id) {
+    public UsuarioEntity upDate(UsuarioEntity usuario, int id) {
         return repository.upDate(usuario, id);
     }
 
     @Override
-    public UsuarioEntity getById(Long id) throws ExceptionUsuario {
+    public UsuarioEntity getById(int id) throws ExceptionUsuario {
         UsuarioEntity usuario = repository.getById(id);
         if (usuario == null)
             throw new ExceptionUsuario(Response.Status.NOT_FOUND.getStatusCode(),

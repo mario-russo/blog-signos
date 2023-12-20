@@ -28,8 +28,8 @@ public class UsuarioRepositoryImpl implements RepositoryModel<UsuarioEntity> {
     }
 
     @Override
-    public UsuarioEntity upDate(UsuarioEntity usuario, Long id) {
-        UsuarioEntity usuarioEntity = panache.findById(id);
+    public UsuarioEntity upDate(UsuarioEntity usuario, int id) {
+        UsuarioEntity usuarioEntity = panache.findById(null);
 
         usuarioEntity.setEmail(usuario.getEmail());
         usuarioEntity.setNome(usuario.getNome());
@@ -42,7 +42,7 @@ public class UsuarioRepositoryImpl implements RepositoryModel<UsuarioEntity> {
     }
 
     @Override
-    public UsuarioEntity getById(Long id) throws ExceptionUsuario {
+    public UsuarioEntity getById(int id) throws ExceptionUsuario {
         UsuarioEntity usuarioSalvo = panache.findById(id);
         if (usuarioSalvo == null)
             return null;

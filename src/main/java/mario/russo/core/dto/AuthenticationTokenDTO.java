@@ -2,10 +2,10 @@ package mario.russo.core.dto;
 
 public class AuthenticationTokenDTO {
     private String token;
-    private Long id;
+    private int id;
     private String nome;
 
-    public AuthenticationTokenDTO(String token, Long id, String nome) {
+    public AuthenticationTokenDTO(String token, int id, String nome) {
         setToken(token);
         setId(id);
         setNome(nome);
@@ -19,11 +19,11 @@ public class AuthenticationTokenDTO {
         this.token = token;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

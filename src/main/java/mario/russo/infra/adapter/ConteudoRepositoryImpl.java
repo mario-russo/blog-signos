@@ -2,9 +2,11 @@ package mario.russo.infra.adapter;
 
 import java.util.List;
 import java.util.Optional;
+
 import jakarta.ejb.ObjectNotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.NotFoundException;
 import mario.russo.core.domain.SignoZodiaco;
 import mario.russo.core.domain.entity.ConteudoEntity;
 import mario.russo.core.ports.out.ConteudoRepository;
@@ -16,14 +18,18 @@ public class ConteudoRepositoryImpl implements ConteudoRepository {
     private ConteudoPanache conteudoPanache;
 
     @Override
-    public Long delete(ConteudoEntity conteudo) {
+    public int delete(ConteudoEntity conteudo) {
 
-        long delete = conteudoPanache.delete("id", conteudo.getId());
-        return delete;
+        boolean delete = conteudoPanache.deleteById(conteudo.getId());
+        if (delete) {
+            return conteudo.getId();
+        } else {
+            return conteudo.getId();
+        }
     }
 
     @Override
-    public ConteudoEntity getById(Long id) {
+    public ConteudoEntity getById(int id) {
         Optional<ConteudoEntity> conteudoResultado = conteudoPanache.findByIdOptional(id);
 
         if (!conteudoResultado.isPresent()) {
@@ -55,13 +61,15 @@ public class ConteudoRepositoryImpl implements ConteudoRepository {
     }
 
     @Override
-    public void upDate(Long id, ConteudoEntity conteudo) {
-        ConteudoEntity conteudoEntity = conteudoPanache.findById(id);
-        conteudoEntity.setReferencia(conteudo.getReferencia());
-        conteudoEntity.setSigno(conteudo.getSigno());
-        conteudoEntity.setConteudo(conteudo.getConteudo());
-
-        conteudoPanache.persist(conteudoEntity);
+    public ConteudoEntity upDate(int id, ConteudoEntity conteudo) {
+        ConteudoEntity entity = conteudoPanache.findById(id);
+        if (entity == null) {
+            throw new NotFoundException();
+        }
+        entity.setConteudo(conteudo.getConteudo());
+        entity.setSigno(conteudo.getSigno());
+        entity.setReferencia(conteudo.getReferencia());
+        return entity;
     }
 
     @Override

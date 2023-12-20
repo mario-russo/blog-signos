@@ -5,7 +5,7 @@ import mario.russo.core.domain.entity.ConteudoEntity;
 import mario.russo.core.domain.entity.UsuarioEntity;
 
 public record ConteudoResponseDTO(
-        Long id,
+        int id,
         String conteudo,
         String referencia,
         SignoZodiaco signo,

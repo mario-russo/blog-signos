@@ -10,11 +10,11 @@ public interface ConteudoRepository {
 
     public List<ConteudoEntity> listAll();
 
-    public ConteudoEntity getById(Long id);
+    public ConteudoEntity getById(int id);
 
-    public Long delete(ConteudoEntity conteudo);
+    public int delete(ConteudoEntity conteudo);
 
-    public void upDate(Long id, ConteudoEntity conteudo);
+    public ConteudoEntity upDate(int id, ConteudoEntity conteudo);
 
     public List<ConteudoEntity> findBysignos(SignoZodiaco signos);
 }

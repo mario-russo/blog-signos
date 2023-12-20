@@ -8,7 +8,7 @@ import mario.russo.core.domain.SignoZodiaco;
 import mario.russo.core.domain.entity.ConteudoEntity;
 
 @ApplicationScoped
-public class ConteudoPanache implements PanacheRepositoryBase<ConteudoEntity, Long> {
+public class ConteudoPanache implements PanacheRepositoryBase<ConteudoEntity, Integer> {
     public List<ConteudoEntity> findBySigno(SignoZodiaco signo) {
         return list("signo", signo);
     }

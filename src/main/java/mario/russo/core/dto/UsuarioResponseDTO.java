@@ -5,7 +5,7 @@ import mario.russo.core.domain.Rules;
 import mario.russo.core.domain.entity.UsuarioEntity;
 
 public record UsuarioResponseDTO(
-                Long id,
+                int id,
                 String nome,
                 String email,
                 List<Rules> rules) {
