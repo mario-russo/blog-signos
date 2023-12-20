@@ -8,7 +8,7 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
-import jakarta.ws.rs.PATCH;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -54,10 +54,15 @@ public class UsuarioController {
     }
 
     @Transactional
-    @PATCH
+    @PUT
     @Path("/{id}")
     public Response atualiza(@PathParam("id") int id, UsuarioRequestDTO usuario) {
-        UsuarioEntity entity = new UsuarioEntity(usuario.nome(), usuario.email(), usuario.senha(), usuario.rule());
+        UsuarioEntity entity = service.getById(id);
+        if (usuario.rule().size() > 0) {
+            entity.setRules(usuario.rule());
+        }
+        entity.setNome(usuario.nome());
+        entity.setEmail(usuario.email());
         UsuarioEntity usuarioAtualizado = service.upDate(entity, id);
 
         UsuarioResponseDTO responseDTO = new UsuarioResponseDTO(usuarioAtualizado);

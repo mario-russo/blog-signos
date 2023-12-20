@@ -3,6 +3,7 @@ package mario.russo.infra.adapter;
 import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.NotFoundException;
 import mario.russo.application.Exception.ExceptionUsuario;
 import mario.russo.core.domain.entity.UsuarioEntity;
 import mario.russo.core.ports.out.RepositoryModel;
@@ -29,14 +30,13 @@ public class UsuarioRepositoryImpl implements RepositoryModel<UsuarioEntity> {
 
     @Override
     public UsuarioEntity upDate(UsuarioEntity usuario, int id) {
-        UsuarioEntity usuarioEntity = panache.findById(null);
-
+        UsuarioEntity usuarioEntity = panache.findById(id);
+        if (usuarioEntity == null) {
+            throw new NotFoundException();
+        }
         usuarioEntity.setEmail(usuario.getEmail());
         usuarioEntity.setNome(usuario.getNome());
         usuarioEntity.setRules(usuario.getRules());
-        usuarioEntity.setSenha(usuario.getSenha());
-
-        panache.persist(usuarioEntity);
 
         return usuarioEntity;
     }
