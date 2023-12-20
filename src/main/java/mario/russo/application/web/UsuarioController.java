@@ -3,8 +3,6 @@ package mario.russo.application.web;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
-
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -68,8 +66,9 @@ public class UsuarioController {
 
     @DELETE
     @Transactional
-    public Response delete(@RequestBody UsuarioEntity usuarioEntity) {
-        Long delete = service.deleteUsuario(usuarioEntity);
+    @Path("/{id}")
+    public Response delete(@PathParam("id") int id) {
+        Boolean delete = service.deleteUsuario(id);
 
         return Response.status(204).entity(delete).build();
     }

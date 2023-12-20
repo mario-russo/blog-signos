@@ -54,8 +54,8 @@ public class UsuarioRepositoryImpl implements RepositoryModel<UsuarioEntity> {
         return usuarioSalvo;
     }
 
-    public Long delete(UsuarioEntity usuarioEntity) {
-        return panache.delete("id", usuarioEntity.getId());
+    public boolean delete(int id) {
+        return panache.deleteById(id);
     }
 
 }

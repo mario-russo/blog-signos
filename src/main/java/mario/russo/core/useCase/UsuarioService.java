@@ -45,8 +45,8 @@ public class UsuarioService implements ServiceBase<UsuarioEntity> {
         return repository.getByEmail(email);
     }
 
-    public Long deleteUsuario(UsuarioEntity usuarioEntity) {
-        return repository.delete(usuarioEntity);
+    public boolean deleteUsuario(int id) {
+        return repository.delete(id);
     }
 
 }
