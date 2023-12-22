@@ -4,7 +4,7 @@ services:
   backend:
     build:
       context: .
-      dockerfile: src/main/docker/Dockerfile.jvm
+      dockerfile: ./dockerfile
     environment:
       DB_URL: jdbc:postgresql://postgresql:5432/signos
       DB_USERNAME: blog-signo
