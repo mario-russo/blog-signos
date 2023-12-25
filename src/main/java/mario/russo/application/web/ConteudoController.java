@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 
+import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -29,6 +30,7 @@ import mario.russo.infra.adapter.UsuarioRepositoryImpl;
 @Path("conteudo")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Authenticated
 public class ConteudoController {
 
     @Inject

@@ -3,6 +3,7 @@ package mario.russo.application.web;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -23,6 +24,7 @@ import mario.russo.core.useCase.UsuarioService;
 @Path("usuario")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Authenticated
 public class UsuarioController {
 
     @Inject

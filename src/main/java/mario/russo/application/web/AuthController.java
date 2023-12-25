@@ -1,8 +1,11 @@
 package mario.russo.application.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
-import jakarta.annotation.security.RolesAllowed;
+import io.quarkus.security.Authenticated;
 import jakarta.ejb.ObjectNotFoundException;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -43,9 +46,18 @@ public class AuthController {
 
     @GET
     @Path("verify")
-    @RolesAllowed({ "ADMIN", "USUARIO" })
-    public Response verify() throws ObjectNotFoundException {
-        return Response.ok().entity("acesso permitido").build();
+    // @PermitAll
+    @Authenticated
+    public Response verify() {
+        Map<String, Boolean> verificar = new HashMap<>();
+        try {
+            verificar.put("acesso", true);
+            return Response.ok().entity(verificar).build();
+
+        } catch (Exception e) {
+            verificar.put("acesso", false);
+            return Response.status(401).entity(e).build();
+        }
     }
 
     @POST
