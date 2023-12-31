@@ -3,11 +3,12 @@ package mario.russo.core.useCase;
 import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import mario.russo.application.Exception.ExceptionUsuario;
 import mario.russo.core.domain.SignoZodiaco;
 import mario.russo.core.domain.entity.ConteudoEntity;
 import mario.russo.core.domain.entity.UsuarioEntity;
+import mario.russo.core.dto.BuscaTudo;
 import mario.russo.core.dto.ConteudoRequestDTO;
+import mario.russo.core.dto.ConteudoResponseDTO;
 import mario.russo.infra.adapter.ConteudoRepositoryImpl;
 
 @ApplicationScoped
@@ -24,7 +25,8 @@ public class ConteudoService {
 
     public ConteudoEntity save(ConteudoRequestDTO conteudo) {
         UsuarioEntity usuario = usuarioservice.getById(conteudo.idUsuario());
-        ConteudoEntity conteudoEntity = new ConteudoEntity(conteudo.signo(), conteudo.conteudo(), conteudo.referencia(),
+        ConteudoEntity conteudoEntity = new ConteudoEntity(conteudo.signo(), conteudo.tipo(), conteudo.conteudo(),
+                conteudo.referencia(),
                 usuario);
 
         ConteudoEntity conteudoResult = repository.save(conteudoEntity);
@@ -40,15 +42,9 @@ public class ConteudoService {
         return conteudo;
     }
 
-    public List<ConteudoEntity> findBySignos(int signoId) {
-        for (SignoZodiaco signo : SignoZodiaco.values()) {
-            if (signo.getId() == signoId) {
-                return repository.findBysignos(signo);
-            }
-        }
+    public List<ConteudoEntity> findBySignos(SignoZodiaco signo) {
+        return repository.findBysignos(signo);
 
-        throw new ExceptionUsuario(404,
-                "Erro Ao Buscar conteudo do id: " + signoId);
     }
 
     public ConteudoEntity upDate(int id, ConteudoEntity conteudo) {
@@ -61,6 +57,11 @@ public class ConteudoService {
         ConteudoEntity conteudo = getById(conteudoEntity.getId());
         return repository.delete(conteudo);
 
+    }
+
+    public ConteudoResponseDTO buscaTudo(BuscaTudo buscaTudo) {
+        ConteudoEntity conteudo = repository.buscaTudo(buscaTudo.signo(), buscaTudo.tipo(), buscaTudo.referencia());
+        return new ConteudoResponseDTO(conteudo);
     }
 
 }
