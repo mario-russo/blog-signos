@@ -8,6 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
 import mario.russo.core.domain.SignoZodiaco;
+import mario.russo.core.domain.TipoReferencia;
 import mario.russo.core.domain.entity.ConteudoEntity;
 import mario.russo.core.ports.out.ConteudoRepository;
 import mario.russo.infra.ConteudoPanache;
@@ -69,6 +70,7 @@ public class ConteudoRepositoryImpl implements ConteudoRepository {
         entity.setConteudo(conteudo.getConteudo());
         entity.setSigno(conteudo.getSigno());
         entity.setReferencia(conteudo.getReferencia());
+        entity.setTipo(conteudo.getTipo());
         return entity;
     }
 
@@ -76,6 +78,11 @@ public class ConteudoRepositoryImpl implements ConteudoRepository {
     public List<ConteudoEntity> findBysignos(SignoZodiaco signos) {
         var conteudoList = conteudoPanache.findBySigno(signos);
         return conteudoList;
+    }
+
+    public ConteudoEntity buscaTudo(SignoZodiaco signo, TipoReferencia tipo, int referencia) {
+        ConteudoEntity conteudo = conteudoPanache.buscaPorSignoTipoReferencia(signo, tipo, referencia);
+        return conteudo;
     }
 
 }
