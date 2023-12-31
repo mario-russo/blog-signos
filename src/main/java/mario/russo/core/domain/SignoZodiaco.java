@@ -9,9 +9,9 @@ public enum SignoZodiaco {
     VIRGEM(6, "Virgem", "23 de agosto - 22 de setembro"),
     LIBRA(7, "Libra", "23 de setembro - 22 de outubro"),
     ESCORPIAO(8, "Escorpião", "23 de outubro - 21 de novembro"),
-    SAGITÁRIO(9, "Sagitário", "22 de novembro - 21 de dezembro"),
-    CAPRICÓRNIO(10, "Capricórnio", "22 de dezembro - 19 de janeiro"),
-    AQUÁRIO(11, "Aquário", "20 de janeiro - 18 de fevereiro"),
+    SAGITARIO(9, "Sagitário", "22 de novembro - 21 de dezembro"),
+    CAPRICORNIO(10, "Capricórnio", "22 de dezembro - 19 de janeiro"),
+    AQUARIO(11, "Aquário", "20 de janeiro - 18 de fevereiro"),
     PEIXES(12, "Peixes", "19 de fevereiro - 20 de março");
 
     private final String nome;
@@ -39,5 +39,14 @@ public enum SignoZodiaco {
     @Override
     public String toString() {
         return nome;
+    }
+
+    public static SignoZodiaco fromId(int id) {
+        for (SignoZodiaco signo : values()) {
+            if (signo.getId() == id) {
+                return signo;
+            }
+        }
+        throw new IllegalArgumentException("ID de signo inválido: " + id);
     }
 }
