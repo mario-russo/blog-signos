@@ -6,7 +6,7 @@ import jakarta.inject.Inject;
 import mario.russo.core.domain.SignoZodiaco;
 import mario.russo.core.domain.entity.ConteudoEntity;
 import mario.russo.core.domain.entity.UsuarioEntity;
-import mario.russo.core.dto.BuscaTudo;
+import mario.russo.core.dto.BuscaTudoDTO;
 import mario.russo.core.dto.ConteudoRequestDTO;
 import mario.russo.core.dto.ConteudoResponseDTO;
 import mario.russo.infra.adapter.ConteudoRepositoryImpl;
@@ -59,7 +59,7 @@ public class ConteudoService {
 
     }
 
-    public ConteudoResponseDTO buscaTudo(BuscaTudo buscaTudo) {
+    public ConteudoResponseDTO buscaTudo(BuscaTudoDTO buscaTudo) {
         ConteudoEntity conteudo = repository.buscaTudo(buscaTudo.signo(), buscaTudo.tipo(), buscaTudo.referencia());
         return new ConteudoResponseDTO(conteudo);
     }
