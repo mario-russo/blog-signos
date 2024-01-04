@@ -1,0 +1,4 @@
+ALTER TABLE
+    conteudo
+ALTER COLUMN
+    conteudo TYPE VARCHAR(5000);
